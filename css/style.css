@@ -1036,6 +1036,9 @@ body {
     border-radius: var(--border-radius);
     font-weight: bold;
     transition: var(--transition);
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
 }
 
 .channel-btn:hover {
@@ -1189,16 +1192,35 @@ body {
 
 .packaging-option {
     position: relative;
-    background: var(--light-bg);
-    border-radius: var(--border-radius);
-    border: 3px solid transparent;
-    transition: var(--transition);
+    background: #ffffff;
+    border-radius: 15px;
+    border: 2px solid #e8e8e8;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
+.packaging-option::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(180deg, #27ae60, #2ecc71);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s ease;
+}
+
+.packaging-option:hover {
+    border-color: #d0d0d0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-5px);
+}
+
 .packaging-option.featured {
-    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
-    border-color: #27ae60;
+    background: #ffffff;
+    border-color: #e8e8e8;
 }
 
 .option-badge {
@@ -1216,41 +1238,114 @@ body {
 
 .option-radio {
     cursor: pointer;
+    position: relative;
 }
 
 .option-radio input[type="radio"] {
-    display: none;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
 }
 
 .option-radio label {
     display: block;
     padding: 2rem;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.option-radio label::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 24px;
+    height: 24px;
+    border: 3px solid #ddd;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.option-radio label::after {
+    content: '';
+    position: absolute;
+    top: 27px;
+    left: 27px;
+    width: 10px;
+    height: 10px;
+    background: #27ae60;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: transform 0.3s ease;
 }
 
 .option-radio input[type="radio"]:checked + label {
-    background: rgba(39, 174, 96, 0.1);
+    background: transparent;
+}
+
+.option-radio input[type="radio"]:checked + label::before {
+    border-color: #27ae60;
+    background: #27ae60;
+}
+
+.option-radio input[type="radio"]:checked + label::after {
+    transform: scale(1);
+    background: #ffffff;
+}
+
+.packaging-option:has(input[type="radio"]:checked) {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-color: #27ae60;
+    border-width: 3px;
+    box-shadow: 0 10px 35px rgba(39, 174, 96, 0.25);
+}
+
+.packaging-option:has(input[type="radio"]:checked)::before {
+    transform: scaleY(1);
+}
+
+.packaging-option:has(input[type="radio"]:checked) .option-badge {
+    display: none;
+}
+
+.packaging-option:not(:has(input[type="radio"]:checked)) .option-badge {
+    display: block;
+}
+
+.packaging-option:has(input[type="radio"]:checked) h4 {
+    color: #27ae60;
+    font-weight: 700;
+}
+
+.packaging-option:has(input[type="radio"]:checked) .option-desc {
+    color: #166534;
 }
 
 .option-icon {
-    font-size: 3rem;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    margin-top: -0.5rem;
+    position: relative;
+    display: none;
 }
 
 .option-radio h4 {
-    font-size: 1.4rem;
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    color: #1a1a1a;
+    margin-bottom: 0.8rem;
     text-align: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
 .option-desc {
     text-align: center;
-    color: #666;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
+    color: #6b7280;
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    transition: all 0.3s ease;
 }
 
 .option-price {
